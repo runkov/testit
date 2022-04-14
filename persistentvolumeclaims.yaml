@@ -1,0 +1,135 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: testit
+  name: authdb-pv-claim
+  labels:
+    app: authdb
+spec:
+  storageClassName: hostpath
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 3Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: testit
+  name: avatars-db-pv-claim
+  labels:
+    app: avatars-db
+spec:
+  storageClassName: hostpath
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: testit
+  name: db-pv-claim
+  labels:
+    app: db
+spec:
+  storageClassName: hostpath
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 100Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: testit
+  name: influxdb-pv-claim
+  labels:
+    app: influxdb
+spec:
+  storageClassName: hostpath
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: testit
+  name: auth-cache-pv-claim
+  labels:
+    app: auth-cache
+spec:
+  storageClassName: hostpath
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: testit
+  name: avatars-minio-data-pv-claim
+  labels:
+    app: avatars-minio
+spec:
+  storageClassName: hostpath
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: testit
+  name: license-pv-claim
+  labels:
+    app: license
+spec:
+  storageClassName: hostpath
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 10Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: testit
+  name: minio-data-pv-claim
+  labels:
+    app: minio
+spec:
+  storageClassName: hostpath
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: testit
+  name: verification-pv-claim
+spec:
+  storageClassName: hostpath
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 10Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: testit
+  name: rabbitmq-pv-claim
+spec:
+  storageClassName: hostpath
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 5Gi

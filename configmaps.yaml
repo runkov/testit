@@ -1,0 +1,195 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: testit
+  name: authdb-config
+  labels:
+    app: authdb
+data:
+  POSTGRES_DB: "authdb"
+  POSTGRES_PASSWORD: "F1rstL0g0N!"
+  POSTGRES_USER: "postgres"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: testit
+  name: avatars-db-config
+  labels:
+    app: avatars-db
+data:
+  POSTGRES_DB: "avatarsdb"
+  POSTGRES_PASSWORD: "F1rstL0g0N!"
+  POSTGRES_USER: "postgres"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: testit
+  name: db-config
+  labels:
+    app: db
+data:
+  POSTGRES_DB: "testitdb"
+  POSTGRES_PASSWORD: "F1rstL0g0N!"
+  POSTGRES_USER: "postgres"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: testit
+  name: influxdb-config
+  labels:
+    app: influxdb
+data:
+  INFLUXDB_DATA_ENGINE: "tsm1"
+  INFLUXDB_DATA_MAX_SERIES_PER_DATABASE: "0"
+  INFLUXDB_DATA_MAX_VALUES_PER_TAG: "0"
+  INFLUXDB_REPORTING_DISABLED: "true"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: testit
+  name: webapi-config
+  labels:
+    app: webapi
+data:
+  FRONTEND_URL: "http://localhost"
+  ASPNETCORE_ENVIRONMENT: "Production"
+  AWS_ACCESS_KEY: "testitAccessKey"
+  AWS_SECRET_KEY: "testitSecretKey"
+  DB_CONNECTION_STRING: "Host=db;Port=5432;Database=testitdb;Username=postgres;Password=F1rstL0g0N!;Pooling=true;Maximum Pool Size=130"
+  RABBITMQ_DEFAULT_HOST: "rabbitmq"
+  RABBITMQ_DEFAULT_PASS: "F1rstL0g0N!"
+  RABBITMQ_DEFAULT_PORT: "5672"
+  RABBITMQ_DEFAULT_USER: "testit"
+  RABBITMQ_DEFAULT_VHOST: "testitrabbit"
+  RABBITMQ_AUTH_MODE: "plain"
+  RABBITMQ_CLIENT_CERT_PATH: "/etc/rabbitmq/ssl/client/testit.pfx"
+  #RABBITMQ_CLIENT_CERT_PASSPHRASE: ""
+  USE_PKCE: "true"
+  SYNC_RESULT_LINKS_EVERY_SEC: "120"
+  TEST_RESULT_LINK_REQUEST_LIFETIME_SEC: "600"
+  AWS_CONNECTION_STRING: "http://minio:9000"
+  INFLUX_CONNECTION_STRING: "http://influxdb:8086"
+  ELASTICSEARCH_CONNECTION_STRING: "http://elasticsearch:9200"
+  ELASTICSEARCH_INDEX: "testit"
+  ELASTICSEARCH_LOGS_INDEX: "action_logs"
+  LICENSING_SERVER_CONNECTION_STRING: "http://license-service"
+  AUTH_CACHE_CONNECTION_STRING: "auth-cache"
+  DATABASE_TIMEOUT_SEC: "600"
+  Serilog__System__MinimumLevel: "Warning"
+  THREAD_PER_PROCESSOR: "10"
+  SYSTEM_NAME: "testit"
+  FILE_BUCKET_NAME: "testit"
+  CALCULATION_AUTOTESTS_STABILITYPERCENTAGE_DELAY_SECONDS: "600"
+  DELETE_ARCHIVE_DATA_DELAY_SECONDS: "600"
+  #INSECURE_REMOTES: "example.com:443"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: testit
+  name: auth-config
+  labels:
+    app: auth
+data:
+  ASPNETCORE_ACCESS_TOKEN_EXPIRATION_MINUTES: "120"
+  ASPNETCORE_REFRESH_TOKEN_EXPIRATION_MINUTES: "88000"
+  ASPNETCORE_ENVIRONMENT: "Production"  
+  AUTH_CONNECTION_STRING: "Host=authdb;Port=5432;Database=authdb;Username=postgres;Password=F1rstL0g0N!;Pooling=true;Maximum Pool Size=130"
+  AUTH_CACHE_CONNECTION_STRING: "auth-cache"
+  SYNC_LDAP_USERS_ON_LOGIN: "true"
+  Serilog__System__MinimumLevel: "Warning"
+  SYSTEM_NAME: "testit"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: testit
+  name: avatars-api-config
+  labels:
+    app: avatars-api
+data:
+  ASPNETCORE_ENVIRONMENT: "Production"
+  AVATARS_AWS_ACCESS_KEY: "avatarsAccessKey"
+  AVATARS_AWS_SECRET_KEY: "avatarsSecretKey"  
+  AVATARS_CONNECTION_STRING: "Host=avatars-db;Port=5432;Database=avatarsdb;Username=postgres;Password=F1rstL0g0N!;Pooling=true;Maximum Pool Size=130"
+  AVATARS_AWS_CONNECTION_STRING: "http://avatars-minio:9000"
+  Serilog__System__MinimumLevel: "Warning"
+  WEBAPI_URL: "http://webapi"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: testit
+  name: avatars-minio-config
+  labels:
+    app: avatars-minio
+data:
+  MINIO_ACCESS_KEY: "avatarsAccessKey"
+  MINIO_SECRET_KEY: "avatarsSecretKey"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: testit
+  name: license-service-config
+  labels:
+    app: license-service
+data:
+  ASPNETCORE_ENVIRONMENT: "Production"
+  Serilog__System__MinimumLevel: "Warning"
+  STORAGE_PATH: "/var/meistersoft/licensing/"
+  VERIFICATION_PATH: "/var/meistersoft/verification/"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: testit
+  name: minio-config
+  labels:
+    app: minio
+data:
+  MINIO_ACCESS_KEY: "testitAccessKey"
+  MINIO_SECRET_KEY: "testitSecretKey"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: testit
+  name: rabbitmqconsumer-config
+  labels:
+    app: rabbitmqconsumer
+data:
+  ASPNETCORE_ENVIRONMENT: "Production"
+  DB_CONNECTION_STRING: "Host=db;Port=5432;Database=testitdb;Username=postgres;Password=F1rstL0g0N!;Pooling=true;Maximum Pool Size=130"
+  FRONTEND_URL: "http://localhost"
+  RABBITMQ_DEFAULT_HOST: "rabbitmq"
+  RABBITMQ_DEFAULT_PASS: "F1rstL0g0N!"
+  RABBITMQ_DEFAULT_PORT: "5672"
+  RABBITMQ_DEFAULT_USER: "testit"
+  RABBITMQ_DEFAULT_VHOST: "testitrabbit"
+  RABBITMQ_AUTH_MODE: "plain"
+  RABBITMQ_CLIENT_CERT_PATH: "/etc/rabbitmq/ssl/client/testit.pfx"
+  #RABBITMQ_CLIENT_CERT_PASSPHRASE: ""
+  LICENSING_SERVER_CONNECTION_STRING: "http://license-service"
+  DATABASE_TIMEOUT_SEC: "600"
+  JIRA_DELAY_MILLISECONDS: "100"
+  PREFETCH_COUNT: "10"
+  Serilog__System__MinimumLevel: "Warning"
+  SYSTEM_NAME: "testit"
+  #INSECURE_REMOTES: "example.com:443"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: testit
+  name: rabbitmq-config
+  labels:
+    app: rabbitmq
+data:
+  RABBITMQ_DEFAULT_PASS: "F1rstL0g0N!"
+  RABBITMQ_DEFAULT_USER: "testit"
+  RABBITMQ_DEFAULT_VHOST: "testitrabbit"

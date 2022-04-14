@@ -1,0 +1,196 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: authdb
+  labels:
+    app: authdb
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+  selector:
+   app: authdb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: avatars-db
+  labels:
+    app: avatars-db
+spec:
+  type: ClusterIP
+  ports:
+   - port: 5432
+  selector:
+   app: avatars-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: db
+  labels:
+    app: db
+spec:
+  type: ClusterIP
+  ports:
+   - port: 5432
+  selector:
+   app: db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: influxdb
+  labels:
+    app: influxdb
+spec:
+  type: ClusterIP
+  ports:
+   - port: 8086
+  selector:
+   app: influxdb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: minio
+  labels:
+    app: minio
+spec:
+  type: ClusterIP
+  ports:
+   - port: 9000
+  selector:
+   app: minio
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: avatars-minio
+  labels:
+    app: avatars-minio
+spec:
+  type: ClusterIP
+  ports:
+   - port: 9000
+  selector:
+   app: avatars-minio
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: rabbitmq
+  labels:
+    app: rabbitmq
+spec:
+  type: ClusterIP
+  ports:
+   - port: 5672
+  selector:
+   app: rabbitmq
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: avatars-api
+  labels:
+    app: avatars-api
+spec:
+  type: ClusterIP
+  ports:
+   - port: 80
+  selector:
+   app: avatars-api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: auth
+  labels:
+    app: auth
+spec:
+  type: ClusterIP
+  ports:
+   - port: 80
+  selector:
+   app: auth
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: webapi
+  labels:
+    app: webapi
+spec:
+  type: ClusterIP
+  ports:
+   - port: 80
+  selector:
+   app: webapi 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: ldapwebapi
+  labels:
+    app: ldapwebapi
+spec:
+  type: ClusterIP
+  ports:
+   - port: 80
+  selector:
+   app: ldapwebapi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: auth-cache
+  labels:
+    app: auth-cache
+spec:
+  type: ClusterIP
+  ports:
+   - port: 6379
+  selector:
+   app: auth-cache
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: license-service
+  labels:
+    app: license-service
+spec:
+  type: ClusterIP
+  ports:
+   - port: 80
+  selector:
+   app: license-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: testit
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  type: NodePort
+  ports:
+   - port: 80
+  selector:
+   app: frontend    
+

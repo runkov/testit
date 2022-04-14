@@ -1,0 +1,477 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  namespace: testit
+  name: authdb
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: authdb
+  template:
+    metadata:
+      labels:
+        app: authdb
+    spec:
+      containers:
+      - name: authdb
+        image: postgres:10
+        args: ["postgres", "-c", "max_connections=150", "-c", "shared_buffers=256MB"]
+        envFrom:
+          - configMapRef:
+              name: authdb-config
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: authdb
+      volumes:
+        - name: authdb
+          persistentVolumeClaim:
+            claimName: authdb-pv-claim
+      initContainers:
+      - name: authdb-init
+        image: alpine:3.6
+        command: ['sh', '-c', 'rm -rf /var/lib/postgresql/data/lost+found']
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: authdb
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: avatars-db
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: avatars-db
+  template:
+    metadata:
+      labels:
+        app: avatars-db
+    spec:
+      containers:
+      - name: avatars-db
+        image: postgres:10
+        args: ["postgres", "-c", "max_connections=300"]
+        envFrom:
+          - configMapRef:
+              name: avatars-db-config
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: avatars-db
+      volumes:
+        - name: avatars-db
+          persistentVolumeClaim:
+            claimName: avatars-db-pv-claim
+      initContainers:
+      - name: avatars-db-init
+        image: alpine:3.6
+        command: ['sh', '-c', 'rm -rf /var/lib/postgresql/data/lost+found']
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: avatars-db
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: db
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - name: db
+        image: postgres:10
+        args: ["postgres", "-c", "max_connections=300", "-c", "shared_buffers=256MB"]
+        envFrom:
+          - configMapRef:
+              name: db-config
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: db
+      volumes:
+        - name: db
+          persistentVolumeClaim:
+            claimName: db-pv-claim
+      initContainers:
+      - name: db-init
+        image: alpine:3.6
+        command: ['sh', '-c', 'rm -rf /var/lib/postgresql/data/lost+found']
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: db
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: influxdb
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: influxdb
+  template:
+    metadata:
+      labels:
+        app: influxdb
+    spec:
+      containers:
+      - name: influxdb
+        image: influxdb:1.8.10
+        envFrom:
+          - configMapRef:
+              name: influxdb-config
+        ports:
+        - containerPort: 8086
+        volumeMounts:
+        - mountPath: /var/lib/influxdb
+          name: influxdb
+      volumes:
+        - name: influxdb
+          persistentVolumeClaim:
+            claimName: influxdb-pv-claim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: auth-cache
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: auth-cache
+  template:
+    metadata:
+      labels:
+        app: auth-cache
+    spec:
+      containers:
+      - name: auth-cache
+        image: redis:5.0
+        args: ["redis-server", "--appendonly", "yes"]
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - mountPath: /data
+          name: auth-cache
+      volumes:
+        - name: auth-cache
+          persistentVolumeClaim:
+            claimName: auth-cache-pv-claim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: auth
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+      - name: auth
+        image: registry.testit.software/testit/authwebapi:3.4.8
+        envFrom:
+          - configMapRef:
+              name: auth-config
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: avatars-api
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: avatars-api
+  template:
+    metadata:
+      labels:
+        app: avatars-api
+    spec:
+      containers:
+      - name: avatars-api      
+        image: registry.testit.software/testit/avatars-api:3.4.8
+        envFrom:
+          - configMapRef:
+              name: avatars-api-config
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: avatars-minio
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: avatars-minio
+  template:
+    metadata:
+      labels:
+        app: avatars-minio
+    spec:
+      containers:
+      - name: avatars-minio
+        image: minio/minio:RELEASE.2021-08-31T05-46-54Z
+        args: ["server", "/data"]
+        envFrom:
+          - configMapRef:
+              name: avatars-minio-config
+        ports:
+        - containerPort: 9000
+        volumeMounts:       
+        - mountPath: /data
+          name: avatars-minio-data
+      volumes:
+        - name: avatars-minio-data
+          persistentVolumeClaim:
+            claimName: avatars-minio-data-pv-claim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: ldapwebapi
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: ldapwebapi
+  template:
+    metadata:
+      labels:
+        app: ldapwebapi
+    spec:
+      containers:
+      - image: registry.testit.software/testit/ldapwebapi:3.4.8
+        name: ldapwebapi
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: license-service
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: license-service
+  template:
+    metadata:
+      labels:
+        app: license-service
+    spec:
+      containers:
+      - name: license-service
+        image: registry.testit.software/testit/licenseservicewebapi:3.4.8
+        envFrom:
+          - configMapRef:
+              name: license-service-config
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /var/meistersoft/licensing
+          name: license
+        - mountPath: /var/meistersoft/verification
+          name: verification
+      volumes:
+        - name: verification
+          persistentVolumeClaim:
+            claimName: verification-pv-claim
+        - name: license
+          persistentVolumeClaim:
+            claimName: license-pv-claim 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: minio
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+      - name: minio
+        image: minio/minio:RELEASE.2021-08-31T05-46-54Z
+        args: ["server", "/data"]
+        envFrom:
+          - configMapRef:
+              name: minio-config
+        ports:
+        - containerPort: 9000
+        volumeMounts:
+        - mountPath: /data
+          name: minio
+      volumes:
+        - name: minio
+          persistentVolumeClaim:
+            claimName: minio-data-pv-claim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: rabbitmqconsumer
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: rabbitmqconsumer
+  template:
+    metadata:
+      labels:
+        app: rabbitmqconsumer
+    spec:
+      containers:
+      - name: rabbitmqconsumer
+        image: registry.testit.software/testit/rabbitmqconsumer:3.4.8
+        envFrom:
+          - configMapRef:
+              name: rabbitmqconsumer-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: rabbitmq
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+      - name: rabbitmq
+        image: rabbitmq:3.8.20-alpine
+        envFrom:
+          - configMapRef:
+              name: rabbitmq-config
+        ports:
+        - containerPort: 5672
+        volumeMounts:
+        - mountPath: /var/lib/rabbitmq
+          name: rabbitmq
+        - mountPath: /etc/rabbitmq/
+          name: rabbitmq
+ #       - mountPath: /etc/certs/
+ #         name: rabbitmq
+      volumes:
+        - name: rabbitmq
+          persistentVolumeClaim:
+            claimName: rabbitmq-pv-claim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: webapi
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: webapi
+  template:
+    metadata:
+      labels:
+        app: webapi
+    spec:
+      containers:
+      - name: webapi
+        image: registry.testit.software/testit/webapi:3.4.8
+        envFrom:
+          - configMapRef:
+              name: webapi-config
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: testit
+  name: frontend
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - image: registry.testit.software/testit/frontend:3.4.8
+        name: frontend
+        ports:
+        - containerPort: 80
