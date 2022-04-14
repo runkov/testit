@@ -10,7 +10,7 @@ spec:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 3Gi
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -38,7 +38,7 @@ spec:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 100Gi
+      storage: 5Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -52,7 +52,7 @@ spec:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 50Gi
+      storage: 3Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -66,7 +66,7 @@ spec:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 5Gi
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -80,7 +80,7 @@ spec:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 5Gi
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -108,7 +108,7 @@ spec:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 10Gi
+      storage: 1Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -132,4 +132,4 @@ spec:
   accessModes: ["ReadWriteOnce"]
   resources:
     requests:
-      storage: 5Gi
+      storage: 1Gi
