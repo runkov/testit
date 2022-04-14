@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: task-pv-volume
+  name: volume-01
   labels:
     type: local
 spec:
@@ -12,3 +12,138 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: "/home/drunkov/RBC/VOL/vol01"
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-02
+  labels:
+    type: local
+spec:
+  storageClassName: hostpath
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/drunkov/RBC/VOL/vol02"
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-03
+  labels:
+    type: local
+spec:
+  storageClassName: hostpath
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/drunkov/RBC/VOL/vol03"
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-04
+  labels:
+    type: local
+spec:
+  storageClassName: hostpath
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/drunkov/RBC/VOL/vol04"
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-05
+  labels:
+    type: local
+spec:
+  storageClassName: hostpath
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/drunkov/RBC/VOL/vol05"
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-06
+  labels:
+    type: local
+spec:
+  storageClassName: hostpath
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/drunkov/RBC/VOL/vol06"
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-07
+  labels:
+    type: local
+spec:
+  storageClassName: hostpath
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/drunkov/RBC/VOL/vol07"
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-08
+  labels:
+    type: local
+spec:
+  storageClassName: hostpath
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/drunkov/RBC/VOL/vol08"
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-09
+  labels:
+    type: local
+spec:
+  storageClassName: hostpath
+  capacity:
+    storage: 3Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/drunkov/RBC/VOL/vol09"
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: volume-10
+  labels:
+    type: local
+spec:
+  storageClassName: hostpath
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/home/drunkov/RBC/VOL/vol10"
